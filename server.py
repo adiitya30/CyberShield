@@ -26,6 +26,7 @@ AGENT_TOKEN = os.environ.get('CYBERSHIELD_AGENT_TOKEN', '')
 DASH_USER = os.environ.get('DASHBOARD_USER', 'aditya')
 DASH_PASS = os.environ.get('DASHBOARD_PASSWORD', '')
 
+
 class Handler(SimpleHTTPRequestHandler):
 
     def __init__(self, *args, **kwargs):
@@ -74,7 +75,7 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         path = urlparse(self.path).path
 
-        # Public homepage and frontend files for Google verification.
+        # Public frontend files for Google verification.
         public_files = (
             '/',
             '/index.html',
@@ -82,7 +83,7 @@ class Handler(SimpleHTTPRequestHandler):
             '/app.js'
         )
 
-        # All other GET routes require dashboard authentication.
+        # Keep API routes protected.
         if path not in public_files:
             if not self.authorized():
                 self.challenge()
@@ -158,7 +159,6 @@ class Handler(SimpleHTTPRequestHandler):
             if not isinstance(data, dict):
                 raise ValueError('Invalid payload')
 
-            # Accept only expected telemetry fields.
             LATEST.update({
                 'received_at': time.time(),
                 'device': str(
@@ -206,5 +206,3 @@ if __name__ == '__main__':
         Handler
     )
     server.serve_forever()
-
- 
