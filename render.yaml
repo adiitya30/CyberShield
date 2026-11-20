@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: cybershield-cloud
+    runtime: python
+    buildCommand: ""
+    startCommand: "python server.py"
+    envVars:
+      - key: DASHBOARD_USER
+        value: aditya
+      - key: DASHBOARD_PASSWORD
+        generateValue: true
+      - key: CYBERSHIELD_AGENT_TOKEN
+        generateValue: true
